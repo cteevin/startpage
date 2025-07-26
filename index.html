@@ -200,5 +200,16 @@
     </div>
   </details>
 
+
+<script>
+  document.querySelectorAll('.link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const url = e.currentTarget.href;
+      const tabName = btoa(url); // nombre único basado en la URL
+      window.open(url, tabName);
+    });
+  });
+</script>
 </body>
 </html>
