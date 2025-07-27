@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Start Page</title>
+  <title>BSD Start Page</title>
+  <link rel="icon" type="image/png" href="" id="dynamic-favicon">
   <script src="config.js"></script>
   <style>
     :root {
@@ -120,18 +121,20 @@
     }
   </style>
   <script>
-    // Asigna el valor dinámico de la ruta al fondo
     document.addEventListener('DOMContentLoaded', () => {
+      const favicon = document.getElementById('dynamic-favicon');
+      if (favicon) {
+        favicon.href = assetsBasePath + 'favicon.png';
+      }
       document.documentElement.style.setProperty('--bg-image', `url('${assetsBasePath}word01.jpg')`);
     });
   </script>
 </head>
 <body>
   <div id="background-layer"></div>
-
   <main>
   <details class="group" open>
-    <summary>GDP - Jira Boards</summary>
+    <summary>BSD - Boards</summary>
     <div class="link-grid">
       <a class="link" href="https://gdp.atlassian.net/jira/software/c/projects/GEN4/boards/163?issueType=10004%2C10001%2C10002&quickFilter=56">
         <img class="no-shadow" alt="Assignees!">
@@ -154,13 +157,32 @@
         </script>
         <span>Backlog!</span>
       </a>
-
-      <!-- Agrega más links aquí -->
+      <a class="link" href="https://excalidraw.com/">
+        <img class="no-shadow" alt="Blackboard">
+        <script>
+          document.currentScript.previousElementSibling.src = assetsBasePath + "excalindraw01.png";
+        </script>
+        <span>Blackboard</span>
+      </a>
+      <a class="link" href="https://planning-poker-agile.web.app/">
+        <img class="no-shadow" alt="Poker Scrum">
+        <script>
+          document.currentScript.previousElementSibling.src = assetsBasePath + "scrum01.svg";
+        </script>
+        <span>Poker Scrum</span>
+      </a>
+      <a class="link" href="https://www.epochconverter.com">
+        <img class="no-shadow" alt="Epoch Converter">
+        <script>
+          document.currentScript.previousElementSibling.src = assetsBasePath + "clock01.svg";
+        </script>
+        <span>Epoch Converter</span>
+      </a>
     </div>
   </details>
 
   <details class="group" open>
-    <summary>GDP - Docs</summary>
+    <summary>BSD - Docs</summary>
     <div class="link-grid">
       <a class="link" href="https://gdp.atlassian.net/wiki/spaces/GEN4/overview">
         <img class="no-shadow" alt="BSD">
@@ -183,9 +205,6 @@
         </script>
         <span>Queries</span>
       </a>
-
-
-
       <a class="link" href="https://gdp.atlassian.net/wiki/spaces/GEN4/pages/761626657/Dev+QA+WIP">
         <img class="no-shadow" alt="Dev & QA">
         <script>
@@ -207,25 +226,23 @@
         </script>
         <span>Events</span>
       </a>
-      
     </div>
   </details>
 
-
-  <details class="group">
-    <summary>GDP - Drive</summary>
+  <details class="group" open>
+    <summary>BSD - Files</summary>
     <div class="link-grid">
       <a class="link" href="https://docs.google.com/spreadsheets/d/1KGdgndLSTuwgacey3oFuz_NmkjtrwpKQHWQAmrqN7xs/edit?pli=1&gid=2136901219#gid=2136901219&fvid=219101511">
         <img class="no-shadow" alt="Deplyment">
         <script>
-          document.currentScript.previousElementSibling.src = assetsBasePath + "google-sheets01.svg";
+          document.currentScript.previousElementSibling.src = assetsBasePath + "jenkins01.svg";
         </script>
         <span>Deployment</span>
       </a>
       <a class="link" href="https://docs.google.com/spreadsheets/d/1a1c5RJH2Q-7nBFeKBHojDaFYqGl97zNacBrxG3ebjQs/edit">
         <img class="no-shadow" alt="Deplyment">
         <script>
-          document.currentScript.previousElementSibling.src = assetsBasePath + "google-sheets01.svg";
+          document.currentScript.previousElementSibling.src = assetsBasePath + "bmm01.jpeg";
         </script>
         <span>Log de Cambios</span>
       </a>
@@ -236,13 +253,6 @@
         </script>
         <span>Drive</span>
       </a>
-      <!-- Agrega más links aquí -->
-    </div>
-  </details>
-
-  <details class="group">
-    <summary>GDP</summary>
-    <div class="link-grid">
       <a class="link" href="http://git.gdpteam.com/">
         <img class="no-shadow" alt="Gitlab">
         <script>
@@ -257,17 +267,8 @@
         </script>
         <span>Email</span>
       </a>
-      <a class="link" href="">
-        <img class="no-shadow" alt="">
-        <script>
-          document.currentScript.previousElementSibling.src = assetsBasePath + "";
-        </script>
-        <span></span>
-      </a>
-      <!-- Agrega más links aquí -->
     </div>
   </details>
-
 
   <details class="group">
     <summary>GDP - 4Gen</summary>
@@ -279,8 +280,6 @@
         </script>
         <span>4G Latency</span>
       </a>
-
-      
       <a class="link" href="http://82.103.136.157:3000/d/eXfQcXr4z/4gen-detailed?orgId=1&search=open&query=folder:current">
         <img class="no-shadow" alt="4G Reports">
         <script>
@@ -288,61 +287,26 @@
         </script>
         <span>4G Reports</span>
       </a>
-
-
       <a class="link" href="https://console.cloud.google.com/logs/query;query=resource.type%3D%22k8s_container%22%0Aresource.labels.cluster_name%3D%22gmw-prod-us-central1-2%22%0Aresource.labels.container_name%3D%22affiliates-pap-be%22%0Aresource.labels.namespace_name%3D%22gen4%22%0A--%20severity%3E%3DERROR%0A--%20-jsonPayload.date%3D%222023-10-12%22%0A--%20-jsonPayload.date%3D%222023-10-13%22%0A--%20-jsonPayload.date%3D%222023%2F10%2F12%22%0A--%20-jsonPayload.date%3D%222023%2F10%2F13%22%0A--%20-resource.labels.container_name%3D%22proxy%22%0A--%20-resource.labels.container_name%3D%22myaccount-fe-cl%22%0A--%20-resource.labels.container_name%3D%22cashier-fe-cl%22%0ASEARCH%2528%22Affiliates%20PAP%20external%20GetVisitorInfo%22%2529%0A-SEARCH%2528%22count%22%2529%0ASEARCH%2528%220%22%2529;cursorTimestamp=2024-06-21T18:47:26.035579243Z;duration=PT1H?project=gmw-prod&pli=1&inv=1&invt=Ab3vVQ">
-        <img class="no-shadow" alt="4G Logs Explorer">
+        <img class="no-shadow" alt="Logs Explorer">
         <script>
           document.currentScript.previousElementSibling.src = assetsBasePath + "google-cloud01.svg";
         </script>
-        <span>4G Logs Explorer</span>
+        <span>Logs Explorer</span>
       </a>
-      
       <a class="link" href="https://console.cloud.google.com/monitoring/dashboards/builder/d903a1a4-766f-4c76-83e0-b7fdc6006bd7;startTime=2024-07-02T04:00:00.000Z;endTime=2024-07-06T03:59:59.999Z;filters=type:rlabel,key:namespace_name,val:gen4%2Btype:rlabel,key:cluster_name%2Btype:rlabel,key:container_name%2Btype:mlabel,key:severity?project=gmw-prod&pli=1&inv=1&invt=Ab3vlg&pageState=(%22eventTypes%22:(%22selected%22:%5B%22CLOUD_ALERTING_ALERT%22,%22GKE_WORKLOAD_DEPLOYMENT%22%5D))">
-        <img class="no-shadow" alt="4G Monitoring">
+        <img class="no-shadow" alt="Monitoring">
         <script>
           document.currentScript.previousElementSibling.src = assetsBasePath + "google-cloud01.svg";
         </script>
-        <span>4G Monitoring</span>
+        <span>Monitoring</span>
       </a>
-      <a class="link" href="https://excalidraw.com/">
-        <img class="no-shadow" alt="Blackboard">
-        <script>
-          document.currentScript.previousElementSibling.src = assetsBasePath + "excalindraw01.png";
-        </script>
-        <span>Blackboard</span>
-      </a>
-
-      
-
-
-
-      <!-- Agrega más links aquí -->
     </div>
   </details>
 
-
   <details class="group">
     <summary>Utils</summary>
-
     <div class="link-grid">
-      <a class="link" href="https://www.epochconverter.com">
-        <img class="no-shadow" alt="Epoch Converter">
-        <script>
-          document.currentScript.previousElementSibling.src = assetsBasePath + "clock01.svg";
-        </script>
-        <span>Epoch Converter</span>
-      </a>
-
-      <a class="link" href="https://planning-poker-agile.web.app/">
-        <img class="no-shadow" alt="Poker Scrum">
-        <script>
-          document.currentScript.previousElementSibling.src = assetsBasePath + "scrum01.svg";
-        </script>
-        <span>Poker Scrum</span>
-      </a>
-      
-
       <a class="link" href="https://www.svgrepo.com">
         <img class="no-shadow" alt="SVG repo">
         <script>
