@@ -126,7 +126,9 @@
       if (favicon) {
         favicon.href = assetsBasePath + 'favicon.png';
       }
-      document.documentElement.style.setProperty('--bg-image', `url('${assetsBasePath}word02.jpg')`);
+
+      const bgUrl = assetsBasePath + 'word02.jpg';
+      document.documentElement.style.setProperty('--bg-image', `url('${bgUrl}')`);
     });
   </script>
 </head>
