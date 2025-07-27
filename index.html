@@ -130,24 +130,12 @@
 
     const bgUrl = basePath + 'word02.jpg';
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const basePath = typeof assetsBasePath !== 'undefined' ? assetsBasePath : '/startpage/files/';
-      const favicon = document.getElementById('dynamic-favicon');
-      if (favicon) {
-        favicon.href = basePath + 'favicon.png';
-      }
-
-      const bgUrl = basePath + 'word02.jpg';
-
-      // Aplicar directamente a body y background-layer
-      document.body.style.backgroundImage = `url('${bgUrl}')`;
-      const bgLayer = document.getElementById('background-layer');
-      if (bgLayer) {
-        bgLayer.style.backgroundImage = `url('${bgUrl}')`;
-      }
-    });
-
-
+    // Aplicar correctamente la imagen de fondo tanto a #background-layer como a body
+    const bgLayer = document.getElementById('background-layer');
+    if (bgLayer) {
+      bgLayer.style.backgroundImage = `url('${bgUrl}')`;
+    }
+    document.body.style.backgroundImage = `url('${bgUrl}')`;
   });
 </script>
 </head>
