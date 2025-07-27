@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -98,7 +97,10 @@
 <body>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // Aplica la imagen de fondo
       document.body.style.backgroundImage = `url("${assetsBasePath}word01.jpg")`;
+
+      // Carga dinámica de las imágenes con data-src
       document.querySelectorAll('img[data-src]').forEach(img => {
         img.src = assetsBasePath + img.dataset.src;
       });
