@@ -120,17 +120,18 @@
       z-index: 2;
     }
   </style>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const favicon = document.getElementById('dynamic-favicon');
-      if (favicon) {
-        favicon.href = '/startpage/files/favicon.png';
-      }
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const basePath = typeof assetsBasePath !== 'undefined' ? assetsBasePath : '/startpage/files/';
+    const favicon = document.getElementById('dynamic-favicon');
+    if (favicon) {
+      favicon.href = basePath + 'favicon.png';
+    }
 
-      const bgUrl = assetsBasePath + 'word02.jpg';
-      document.documentElement.style.setProperty('--bg-image', `url('${bgUrl}')`);
-    });
-  </script>
+    const bgUrl = basePath + 'word02.jpg';
+    document.documentElement.style.setProperty('--bg-image', `url('${bgUrl}')`);
+  });
+</script>
 </head>
 <body>
   <div id="background-layer"></div>
