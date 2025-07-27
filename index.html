@@ -15,13 +15,38 @@
     }
     
     body {
+      background: var(--bg-image) no-repeat center center;
+      background-size: cover;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-position: center center;
       margin: 0;
       font-family: sans-serif;
-      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    #background-layer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background-image: var(--bg-image);
       background-size: cover;
       background-position: center;
-      color: var(--text-color);
+      background-repeat: no-repeat;
+      z-index: -1;
+      will-change: opacity;
+      pointer-events: none;
+    }
+
+    main {
+      position: fixed;
+      top: 20px;
+      bottom: 20px;
+      overflow-y: auto;
+      left: 30px;
+      width: 1200px;
+      z-index: 1;
     }
 
     h1 {
@@ -33,7 +58,7 @@
     .group {
       width: 90%;
       max-width: 1024px;
-      margin: 20px auto;
+      margin: 10px auto;
       background-color: rgba(38, 31, 31, 0.9);
       border-radius: 12px;
       overflow: hidden;
@@ -42,7 +67,7 @@
 
     .group summary {
       cursor: pointer;
-      padding: 15px;
+      padding: 10px;
       font-size: 1.2rem;
       background-color: rgba(255, 255, 255, 0.05);
       border-bottom: 1px solid rgba(255,255,255,0.1);
@@ -50,12 +75,6 @@
 
     .group summary::-webkit-details-marker {
       display: none;
-    }
-
-    .group summary::after {
-      content: '▶';
-      float: right;
-      transition: transform 0.3s;
     }
 
     .group[open] summary::after {
@@ -94,6 +113,11 @@
       display: block;
       word-wrap: break-word;
     }
+    details.group > summary {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
   </style>
   <script>
     // Asigna el valor dinámico de la ruta al fondo
@@ -103,8 +127,92 @@
   </script>
 </head>
 <body>
-  <h1>Favorites</h1>
+  <div id="background-layer"></div>
+
+  <main>
   <details class="group" open>
+    <summary>GDP - Jira Boards</summary>
+    <div class="link-grid">
+      <a class="link" href="https://gdp.atlassian.net/jira/software/c/projects/GEN4/boards/163?issueType=10004%2C10001%2C10002&quickFilter=56">
+        <img class="no-shadow" alt="Assignees!">
+        <script>
+          document.currentScript.previousElementSibling.src = assetsBasePath + "jira02.svg";
+        </script>
+        <span>Assignees!</span>
+      </a>
+      <a class="link" href="https://gdp.atlassian.net/jira/software/c/projects/GEN4/boards/4?issueType=10004%2C10001%2C10002">
+        <img class="no-shadow" alt="Epics!">
+        <script>
+          document.currentScript.previousElementSibling.src = assetsBasePath + "jira02.svg";
+        </script>
+        <span>Epics!</span>
+      </a>
+      <a class="link" href="https://gdp.atlassian.net/jira/software/c/projects/GEN4/boards/4/backlog">
+        <img class="no-shadow" alt="Backlog!">
+        <script>
+          document.currentScript.previousElementSibling.src = assetsBasePath + "jira01.svg";
+        </script>
+        <span>Backlog!</span>
+      </a>
+
+      <!-- Agrega más links aquí -->
+    </div>
+  </details>
+
+  <details class="group" open>
+    <summary>GDP - Docs</summary>
+    <div class="link-grid">
+      <a class="link" href="https://gdp.atlassian.net/wiki/spaces/GEN4/overview">
+        <img class="no-shadow" alt="BSD">
+        <script>
+          document.currentScript.previousElementSibling.src = assetsBasePath + "confluence02.svg";
+        </script>
+        <span>BSD</span>
+      </a>
+      <a class="link" href="https://gdp.atlassian.net/wiki/spaces/GEN4/pages/801177716/DBs+-+MySQL">
+        <img class="no-shadow" alt="DBs - MySQL">
+        <script>
+          document.currentScript.previousElementSibling.src = assetsBasePath + "mysql01.svg";
+        </script>
+        <span>DBs - MySQL</span>
+      </a>
+      <a class="link" href="https://gdp.atlassian.net/wiki/spaces/GEN4/pages/1040154625/Queries+Negocio+-+MySQL">
+        <img class="no-shadow" alt="Queries">
+        <script>
+          document.currentScript.previousElementSibling.src = assetsBasePath + "mysql01.svg";
+        </script>
+        <span>Queries</span>
+      </a>
+
+
+
+      <a class="link" href="https://gdp.atlassian.net/wiki/spaces/GEN4/pages/761626657/Dev+QA+WIP">
+        <img class="no-shadow" alt="Dev & QA">
+        <script>
+          document.currentScript.previousElementSibling.src = assetsBasePath + "confluence02.svg";
+        </script>
+        <span>Dev & QA</span>
+      </a>
+      <a class="link" href="https://gdp.atlassian.net/wiki/spaces/GDPDOC/pages/371261453/Projects+Council+-+2023-05-15">
+        <img class="no-shadow" alt="Council">
+        <script>
+          document.currentScript.previousElementSibling.src = assetsBasePath + "confluence02.svg";
+        </script>
+        <span>Council</span>
+      </a>
+      <a class="link" href="https://gdp.atlassian.net/wiki/spaces/GEN4/pages/353173600/Events">
+        <img class="no-shadow" alt="Events">
+        <script>
+          document.currentScript.previousElementSibling.src = assetsBasePath + "confluence02.svg";
+        </script>
+        <span>Events</span>
+      </a>
+      
+    </div>
+  </details>
+
+
+  <details class="group">
     <summary>GDP - Drive</summary>
     <div class="link-grid">
       <a class="link" href="https://docs.google.com/spreadsheets/d/1KGdgndLSTuwgacey3oFuz_NmkjtrwpKQHWQAmrqN7xs/edit?pli=1&gid=2136901219#gid=2136901219&fvid=219101511">
@@ -132,7 +240,7 @@
     </div>
   </details>
 
-  <details class="group" open>
+  <details class="group">
     <summary>GDP</summary>
     <div class="link-grid">
       <a class="link" href="http://git.gdpteam.com/">
@@ -161,7 +269,7 @@
   </details>
 
 
-  <details class="group" open>
+  <details class="group">
     <summary>GDP - 4Gen</summary>
     <div class="link-grid">
       <a class="link" href="https://grafana-us.prod.gmwrgs.com/d/edy55yu9qf0u8d/services?orgId=1&var-exclude=carnivalciti-fun-gmw-product-wallet&var-exclude=carnivalciti-real-gmw-product-wallet&var-exclude=carnivalciti-shell-fe-cl&var-exclude=gen4-auth-fe-cl&var-exclude=gen4-banners-fe-bo&var-exclude=gen4-cashier-fe-cl&var-exclude=gen4-catalog-fe-bo&var-exclude=gen4-draws-fe-bo&var-exclude=gen4-game-fe-cl&var-exclude=gen4-games-fe-bo&var-exclude=gen4-geo-fe-bo&var-exclude=gen4-gift-management-fe-bo&var-exclude=gen4-gmw-games-fe-bo&var-exclude=gen4-home-fe-cl&var-exclude=gen4-incidents-fe-bo&var-exclude=gen4-kong-kong&var-exclude=gen4-kyc-fe-bo&var-exclude=gen4-languages-fe-bo&var-exclude=gen4-layout-fe-cl&var-exclude=gen4-myaccount-fe-cl&var-exclude=gen4-notifications-fe-bo&var-exclude=gen4-payment-gateway-fe-bo&var-exclude=gen4-popup-fe-bo&var-exclude=gen4-products-fe-bo&var-exclude=gen4-promotions-fe-bo&var-exclude=gen4-providers-fe-bo&var-exclude=gen4-registration-fe-cl&var-exclude=gen4-reports-be&var-exclude=gen4-reports-fe-bo&var-exclude=gen4-restrictions-fe-bo&var-exclude=gen4-shell-fe-bo&var-exclude=gen4-trivia-fe-bo&var-exclude=gen4-vip-access-fe-bo&var-exclude=gmw-rgs-jackpotservice-fun&var-exclude=gmw-rgs-jackpotservice-real&var-exclude=ingress-nginx-controller&var-hide=GET%20%2Fv1%2Fcommon%2Fhealth&var-show=All&var-duration=1s&var-service=gen4-games-provider-be&var-endpoint=GET%20/v1/fo/se/product-games/catalog/carnivalciti/slots/v2">
@@ -214,7 +322,7 @@
   </details>
 
 
-  <details class="group" open>
+  <details class="group">
     <summary>Utils</summary>
 
     <div class="link-grid">
@@ -251,7 +359,7 @@
       </a>
     </div>
   </details>
-
+  </main>
 
 <script>
   document.querySelectorAll('.link').forEach(link => {
