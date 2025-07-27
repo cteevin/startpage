@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Start Page</title>
+  <script src="config.js"></script>
+  <style>
+    :root {
+      --bg-color: #262525;
+      --text-color: #f0f0f0;
+      --accent-color: #262525;
+      --icon-size: 60px;
+    }
+
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background-color: var(--bg-color);
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 1.5rem;
+    }
+
+    .group {
+      width: 90%;
+      max-width: 1024px;
+      margin: 20px auto;
+      background-color: rgba(38, 31, 31, 0.9);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.7);
+    }
+
+    .group summary {
+      cursor: pointer;
+      padding: 15px;
+      font-size: 1.2rem;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .group summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .group summary::after {
+      content: '▶';
+      float: right;
+      transition: transform 0.3s;
+    }
+
+    .group[open] summary::after {
+      transform: rotate(90deg);
+    }
+
+    .link-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 20px;
+      justify-content: center;
+    }
+
+    .link {
+      text-align: center;
+      text-decoration: none;
+      color: var(--text-color);
+      width: 100px;
+    }
+
+    .link img {
+      width: var(--icon-size);
+      height: var(--icon-size);
+      display: block;
+      margin: 0 auto 8px;
+      filter: drop-shadow(0 0 4px rgba(0,0,0,0.7));
+    }
+
+    .link img.no-shadow {
+      filter: none;
+    }
+
+    .link span {
+      font-size: 0.9rem;
+      display: block;
+      word-wrap: break-word;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.body.style.backgroundImage = `url("${assetsBasePath}word01.jpg")`;
+      document.querySelectorAll('img[data-src]').forEach(img => {
+        img.src = assetsBasePath + img.dataset.src;
+      });
+    });
+  </script>
+
+  <h1>Favorites</h1>
+
+  <details class="group" open>
+    <summary>GDP - Drive</summary>
+    <div class="link-grid">
+      <a class="link" href="https://docs.google.com/spreadsheets/d/1KGdgndLSTuwgacey3oFuz_NmkjtrwpKQHWQAmrqN7xs/edit?pli=1&gid=2136901219#gid=2136901219&fvid=219101511" target="_blank">
+        <img class="no-shadow" data-src="google-sheets01.svg" alt="Deployment">
+        <span>Deployment</span>
+      </a>
+      <a class="link" href="https://docs.google.com/spreadsheets/d/1a1c5RJH2Q-7nBFeKBHojDaFYqGl97zNacBrxG3ebjQs/edit" target="_blank">
+        <img class="no-shadow" data-src="google-sheets01.svg" alt="Log de Cambios">
+        <span>Log de Cambios</span>
+      </a>
+      <a class="link" href="https://drive.google.com/drive/u/0/home" target="_blank">
+        <img class="no-shadow" data-src="google-drive01.svg" alt="Drive">
+        <span>Drive</span>
+      </a>
+    </div>
+  </details>
+</body>
+</html>
