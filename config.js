@@ -1,4 +1,4 @@
 // config.js
 // const assetsBasePath = 'file:///Users/carlos/Development/StartPage/files/';
 // En producción, reemplaza por:
-const assetsBasePath = './files/';
+const assetsBasePath = '/startpage/files/';
