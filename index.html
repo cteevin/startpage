@@ -3,110 +3,177 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Start page personal con accesos rápidos para BSD, GDP y utilidades.">
+    <meta name="theme-color" content="#262525">
+    <meta name="color-scheme" content="dark">
     <title>BSD Start Page</title>
     <link rel="icon" type="image/png" id="dynamic-favicon">
-    <script src="config.js"></script>
+    <script src="config.js" defer></script>
     <style>
       :root {
-        --bg-image: url('');
         --bg-color: #262525;
-        --text-color: #f0f0f0;
-        --accent-color: #262525;
-        --icon-size: 60px;
+        --surface: oklch(25% 0.01 20 / 0.55);
+        --surface-hover: oklch(30% 0.02 20 / 0.7);
+        --text-color: oklch(96% 0.01 90);
+        --text-muted: color-mix(in oklch, var(--text-color) 70%, transparent);
+        --accent: oklch(70% 0.15 200);
+        --border: color-mix(in oklch, white 10%, transparent);
+        --shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        --radius: 14px;
+        --icon-size: clamp(48px, 5vw, 64px);
+        --tile-width: clamp(96px, 10vw, 120px);
+        --gap: clamp(12px, 1.5vw, 24px);
+        --transition: 200ms ease;
       }
-      
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
       body {
-        background: var(--bg-image) no-repeat center center;
-        background-size: cover;
+        margin: 0;
+        min-height: 100dvh;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        font-size: clamp(0.9rem, 0.85rem + 0.2vw, 1rem);
+        color: var(--text-color);
+        background-color: var(--bg-color);
         background-attachment: fixed;
         background-position: center center;
-        margin: 0;
-        font-family: sans-serif;
-        color: var(--text-color);
+        background-size: cover;
+        background-repeat: no-repeat;
       }
+
       #background-layer {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: var(--bg-image);
+        inset: 0;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         z-index: -1;
-        will-change: opacity;
         pointer-events: none;
+      }
+
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
       }
 
       main {
         position: fixed;
-        top: 20px;
-        bottom: 20px;
-        overflow-y: auto;
-        left: 30px;
-        right: 30px;
+        inset: 1.25rem 1.875rem;
         max-width: 1200px;
+        margin-inline: auto;
+        overflow-y: auto;
         z-index: 1;
+        scrollbar-color: var(--surface) transparent;
+        scrollbar-width: thin;
       }
 
       .group {
-        width: 90%;
-        max-width: 1024px;
-        margin: 10px auto;
-        background-color: rgba(38, 31, 31, 0.6);
-        border-radius: 12px;
+        width: min(100%, 1024px);
+        margin: 0.625rem auto;
+        background-color: var(--surface);
+        backdrop-filter: blur(10px) saturate(140%);
+        -webkit-backdrop-filter: blur(10px) saturate(140%);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
         overflow: hidden;
-        box-shadow: 0 0 10px rgba(0,0,0,0.7);
+        box-shadow: var(--shadow);
       }
 
-      .group summary {
+      .group > summary {
+        position: sticky;
+        top: 0;
+        z-index: 2;
         cursor: pointer;
-        padding: 10px;
-        font-size: 1.2rem;
-        background-color: rgba(255, 255, 255, 0.05);
-        border-bottom: 1px solid rgba(255,255,255,0.1);
+        padding: 0.625rem 1rem;
+        background-color: color-mix(in oklch, white 5%, transparent);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border);
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 0.5rem;
+        list-style: none;
+        user-select: none;
+        transition: background-color var(--transition);
       }
 
-      .group summary::-webkit-details-marker {
+      .group > summary:hover {
+        background-color: color-mix(in oklch, white 9%, transparent);
+      }
+
+      .group > summary::-webkit-details-marker {
         display: none;
       }
 
-      .group summary::before {
+      .group > summary::before {
         content: '▶';
-        font-size: 0.8rem;
-        transition: transform 0.2s ease;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        transition: transform var(--transition);
         display: inline-block;
       }
 
-      .group[open] summary::before {
+      .group[open] > summary::before {
         transform: rotate(90deg);
       }
 
+      .group-title {
+        font-size: 1.15rem;
+        font-weight: 600;
+        margin: 0;
+        line-height: 1;
+      }
+
       .link-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        padding: 20px;
-        justify-content: center;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(var(--tile-width), 1fr));
+        gap: var(--gap);
+        padding: 1.25rem;
       }
 
       .link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         text-align: center;
         text-decoration: none;
         color: var(--text-color);
-        width: 100px;
+        padding: 0.5rem;
+        border-radius: 10px;
+        transition: background-color var(--transition), transform var(--transition);
+      }
+
+      .link:hover {
+        background-color: var(--surface-hover);
+        transform: translateY(-2px);
+      }
+
+      .link:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
       }
 
       .link img {
         width: var(--icon-size);
         height: var(--icon-size);
         display: block;
-        margin: 0 auto 8px;
-        filter: drop-shadow(0 0 4px rgba(0,0,0,0.7));
+        margin: 0 auto 0.5rem;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.7));
       }
 
       .link img.no-shadow {
@@ -114,255 +181,275 @@
       }
 
       .link span {
-        font-size: 0.9rem;
-        display: block;
+        font-size: 0.85rem;
+        line-height: 1.25;
         word-wrap: break-word;
       }
-      details.group > summary {
-        position: sticky;
-        top: 0;
-        z-index: 2;
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          transition-duration: 0ms !important;
+          animation-duration: 0ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+
+      @media (max-width: 600px) {
+        main {
+          inset: 0.75rem;
+        }
       }
     </style>
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const basePath = typeof assetsBasePath !== 'undefined' ? assetsBasePath : '/startpage/files/';
-
-        const favicon = document.getElementById('dynamic-favicon');
-        if (favicon) {
-          favicon.href = basePath + 'favicon.png';
-        }
-
-        const bgUrl = basePath + 'word02.jpg';
-        const bgLayer = document.getElementById('background-layer');
-        if (bgLayer) {
-          bgLayer.style.backgroundImage = `url('${bgUrl}')`;
-        }
-        document.body.style.backgroundImage = `url('${bgUrl}')`;
-
-        // Resolver iconos lazy
-        document.querySelectorAll('img[data-src]').forEach(img => {
-          img.src = basePath + img.getAttribute('data-src');
-        });
-      });
-    </script>
   </head>
   <body>
-    <div id="background-layer"></div>
-    <main>
+    <div id="background-layer" aria-hidden="true"></div>
+
+    <h1 class="visually-hidden">BSD Start Page</h1>
+
+    <main aria-label="Accesos rápidos">
       <details class="group" open>
-        <summary>BSD - Boards</summary>
+        <summary><h2 class="group-title">BSD - Boards</h2></summary>
         <div class="link-grid">
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://gdp.atlassian.net/jira/software/c/projects/GEN4/boards/163?issueType=10004%2C10001%2C10002&quickFilter=56">
-            <img class="no-shadow" loading="lazy" alt="Assignees!" data-src="jira02.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="jira02.svg">
             <span>Assignees!</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://gdp.atlassian.net/jira/software/c/projects/GEN4/boards/4?issueType=10004%2C10001%2C10002">
-            <img class="no-shadow" loading="lazy" alt="Epics!" data-src="jira02.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="jira02.svg">
             <span>Epics!</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://gdp.atlassian.net/jira/software/c/projects/GEN4/boards/4/backlog">
-            <img class="no-shadow" loading="lazy" alt="Backlog!" data-src="jira01.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="jira01.svg">
             <span>Backlog!</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://excalidraw.com/">
-            <img class="no-shadow" loading="lazy" alt="Excalidraw" data-src="excalindraw01.png">
+            <img class="no-shadow" loading="lazy" alt="" data-src="excalindraw01.png">
             <span>Excalidraw</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://planning-poker-agile.web.app/">
-            <img class="no-shadow" loading="lazy" alt="Poker Scrum" data-src="scrum01.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="scrum01.svg">
             <span>Poker Scrum</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://www.epochconverter.com">
-            <img class="no-shadow" loading="lazy" alt="Epoch Converter" data-src="clock01.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="clock01.svg">
             <span>Epoch Converter</span>
           </a>
         </div>
       </details>
 
       <details class="group" open>
-        <summary>BSD - Docs</summary>
+        <summary><h2 class="group-title">BSD - Docs</h2></summary>
         <div class="link-grid">
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://gdp.atlassian.net/wiki/spaces/GEN4/overview">
-            <img class="no-shadow" loading="lazy" alt="BSD" data-src="confluence02.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="confluence02.svg">
             <span>BSD</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://gdp.atlassian.net/wiki/spaces/GEN4/pages/801177716/DBs+-+MySQL">
-            <img class="no-shadow" loading="lazy" alt="DBs - MySQL" data-src="mysql01.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="mysql01.svg">
             <span>DBs - MySQL</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://gdp.atlassian.net/wiki/spaces/GEN4/pages/1040154625/Queries+Negocio+-+MySQL">
-            <img class="no-shadow" loading="lazy" alt="Queries" data-src="mysql01.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="mysql01.svg">
             <span>Queries</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://gdp.atlassian.net/wiki/spaces/GEN4/pages/761626657/Dev+QA+WIP">
-            <img class="no-shadow" loading="lazy" alt="Dev & QA" data-src="confluence02.svg">
-            <span>Dev & QA</span>
+            <img class="no-shadow" loading="lazy" alt="" data-src="confluence02.svg">
+            <span>Dev &amp; QA</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://gdp.atlassian.net/wiki/spaces/GDPDOC/pages/371261453/Projects+Council+-+2023-05-15">
-            <img class="no-shadow" loading="lazy" alt="Council" data-src="confluence02.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="confluence02.svg">
             <span>Council</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://gdp.atlassian.net/wiki/spaces/GEN4/pages/353173600/Events">
-            <img class="no-shadow" loading="lazy" alt="Events" data-src="confluence02.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="confluence02.svg">
             <span>Events</span>
           </a>
         </div>
       </details>
 
       <details class="group" open>
-        <summary>BSD - Files</summary>
+        <summary><h2 class="group-title">BSD - Files</h2></summary>
         <div class="link-grid">
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://docs.google.com/spreadsheets/d/1KGdgndLSTuwgacey3oFuz_NmkjtrwpKQHWQAmrqN7xs/edit?pli=1&gid=2136901219#gid=2136901219&fvid=219101511">
-            <img class="no-shadow" loading="lazy" alt="Deployment" data-src="actions01.png">
+            <img class="no-shadow" loading="lazy" alt="" data-src="actions01.png">
             <span>Deployments</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://docs.google.com/spreadsheets/d/1KGdgndLSTuwgacey3oFuz_NmkjtrwpKQHWQAmrqN7xs/edit?pli=1&gid=2136901219#gid=2136901219">
-            <img class="no-shadow" loading="lazy" alt="Deployment" data-src="excel02.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="excel02.svg">
             <span>Deploy NF</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://docs.google.com/spreadsheets/d/1_SvTvtZrHZLglnA_no3kxMEJcJ9WeYNOwqydaY0Esuc/edit?gid=1861986575#gid=1861986575">
-            <img class="no-shadow" loading="lazy" alt="Pre Pases QA" data-src="checklist01.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="checklist01.svg">
             <span>Pre Pases QA</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://docs.google.com/spreadsheets/d/1lGuy9oTxNpQyM8-vLODU9_3uQc0VotH5kY9R6eqoALw/edit?usp=sharing">
-            <img class="no-shadow" loading="lazy" alt="Repos (Map)" data-src="git01.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="git01.svg">
             <span>Repos (Map)</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://docs.google.com/spreadsheets/d/1ijfAe7hpONckmuQlLziJsqQDEudFgRp7NmHb4f1V4nw/edit?gid=0#gid=0">
-            <img class="no-shadow" loading="lazy" alt="DB Credentials" data-src="database02.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="database02.svg">
             <span>DB Credentials</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://docs.google.com/spreadsheets/d/1a1c5RJH2Q-7nBFeKBHojDaFYqGl97zNacBrxG3ebjQs/edit">
-            <img class="no-shadow" loading="lazy" alt="Deployment" data-src="bmm01.jpeg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="bmm01.jpeg">
             <span>Log de Cambios</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://drive.google.com/drive/u/0/home">
-            <img class="no-shadow" loading="lazy" alt="Deployment" data-src="google-drive01.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="google-drive01.svg">
             <span>Drive</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://docs.google.com/spreadsheets/d/1BkNVZQr3NeSMIqAnQv73Rb-kEOGf1ndG/edit?usp=sharing&ouid=109522959278871391667&rtpof=true&sd=true">
-            <img class="no-shadow" loading="lazy" alt="SPs Devs" data-src="excel02.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="excel02.svg">
             <span>SPs Devs</span>
           </a>
         </div>
       </details>
 
       <details class="group" open>
-        <summary>BSD - Tools</summary>
+        <summary><h2 class="group-title">BSD - Tools</h2></summary>
         <div class="link-grid">
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://jenkins.gdpteam.com/blue/organizations/jenkins/pipelines">
-            <img class="no-shadow" loading="lazy" alt="Jenkins" data-src="jenkins01.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="jenkins01.svg">
             <span>Jenkins</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="http://git.gdpteam.com/">
-            <img class="no-shadow" loading="lazy" alt="Gitlab" data-src="gitlab01.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="gitlab01.svg">
             <span>Gitlab</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://kc.dev.gmwrgs.com/auth/realms/master/protocol/openid-connect/auth?client_id=security-admin-console&redirect_uri=https%3A%2F%2Fkc.dev.gmwrgs.com%2Fauth%2Fadmin%2Fmaster%2Fconsole%2F%23%2Frealms%2FGDP%2Fclients&response_type=code&scope=openid">
-            <img class="no-shadow" loading="lazy" alt="Keycloak" data-src="keycloak01.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="keycloak01.svg">
             <span>Keycloak</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://mail.google.com/mail/u/0/#inbox">
-            <img class="no-shadow" loading="lazy" alt="Email" data-src="gmail01.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="gmail01.svg">
             <span>Email</span>
           </a>
         </div>
       </details>
 
       <details class="group" open>
-        <summary>GDP - 4Gen</summary>
+        <summary><h2 class="group-title">GDP - 4Gen</h2></summary>
         <div class="link-grid">
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://grafana-us.prod.gmwrgs.com/d/edy55yu9qf0u8d/services?orgId=1&var-exclude=carnivalciti-fun-gmw-product-wallet&var-exclude=carnivalciti-real-gmw-product-wallet&var-exclude=carnivalciti-shell-fe-cl&var-exclude=gen4-auth-fe-cl&var-exclude=gen4-banners-fe-bo&var-exclude=gen4-cashier-fe-cl&var-exclude=gen4-catalog-fe-bo&var-exclude=gen4-draws-fe-bo&var-exclude=gen4-game-fe-cl&var-exclude=gen4-games-fe-bo&var-exclude=gen4-geo-fe-bo&var-exclude=gen4-gift-management-fe-bo&var-exclude=gen4-gmw-games-fe-bo&var-exclude=gen4-home-fe-cl&var-exclude=gen4-incidents-fe-bo&var-exclude=gen4-kong-kong&var-exclude=gen4-kyc-fe-bo&var-exclude=gen4-languages-fe-bo&var-exclude=gen4-layout-fe-cl&var-exclude=gen4-myaccount-fe-cl&var-exclude=gen4-notifications-fe-bo&var-exclude=gen4-payment-gateway-fe-bo&var-exclude=gen4-popup-fe-bo&var-exclude=gen4-products-fe-bo&var-exclude=gen4-promotions-fe-bo&var-exclude=gen4-providers-fe-bo&var-exclude=gen4-registration-fe-cl&var-exclude=gen4-reports-be&var-exclude=gen4-reports-fe-bo&var-exclude=gen4-restrictions-fe-bo&var-exclude=gen4-shell-fe-bo&var-exclude=gen4-trivia-fe-bo&var-exclude=gen4-vip-access-fe-bo&var-exclude=gmw-rgs-jackpotservice-fun&var-exclude=gmw-rgs-jackpotservice-real&var-exclude=ingress-nginx-controller&var-hide=GET%20%2Fv1%2Fcommon%2Fhealth&var-show=All&var-duration=1s&var-service=gen4-games-provider-be&var-endpoint=GET%20/v1/fo/se/product-games/catalog/carnivalciti/slots/v2">
-            <img class="no-shadow" loading="lazy" alt="4G Latency" data-src="fire01.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="fire01.svg">
             <span>4G Latency</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://grafana-us.prod.gmwrgs.com/d/beuzvo03qkruof/prod-versions?orgId=1">
-            <img class="no-shadow" loading="lazy" alt="Prod. Repos" data-src="grafana01.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="grafana01.svg">
             <span>Prod. Repos</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://grafana.qa.gmwrgs.com/d/ae3dwl4m0ulfka/qa-versions?orgId=1&var-namespace=gen4&var-container=All">
-            <img class="no-shadow" loading="lazy" alt="QA Repos" data-src="grafana02.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="grafana02.svg">
             <span>QA Repos</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="http://82.103.136.157:3000/d/eXfQcXr4z/4gen-detailed?orgId=1&search=open&query=folder:current">
-            <img class="no-shadow" loading="lazy" alt="4G Reports" data-src="grafana01.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="grafana01.svg">
             <span>4G Reports</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://console.cloud.google.com/logs/query;query=resource.type%3D%22k8s_container%22%0Aresource.labels.cluster_name%3D%22gmw-prod-us-central1-2%22%0Aresource.labels.container_name%3D%22affiliates-pap-be%22%0Aresource.labels.namespace_name%3D%22gen4%22%0A--%20severity%3E%3DERROR%0A--%20-jsonPayload.date%3D%222023-10-12%22%0A--%20-jsonPayload.date%3D%222023-10-13%22%0A--%20-jsonPayload.date%3D%222023%2F10%2F12%22%0A--%20-jsonPayload.date%3D%222023%2F10%2F13%22%0A--%20-resource.labels.container_name%3D%22proxy%22%0A--%20-resource.labels.container_name%3D%22myaccount-fe-cl%22%0A--%20-resource.labels.container_name%3D%22cashier-fe-cl%22%0ASEARCH%2528%22Affiliates%20PAP%20external%20GetVisitorInfo%22%2529%0A-SEARCH%2528%22count%22%2529%0ASEARCH%2528%220%22%2529;cursorTimestamp=2024-06-21T18:47:26.035579243Z;duration=PT1H?project=gmw-prod&pli=1&inv=1&invt=Ab3vVQ">
-            <img class="no-shadow" loading="lazy" alt="Logs Explorer" data-src="google-cloud01.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="google-cloud01.svg">
             <span>Logs Explorer</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://console.cloud.google.com/monitoring/dashboards/builder/d903a1a4-766f-4c76-83e0-b7fdc6006bd7;startTime=2024-07-02T04:00:00.000Z;endTime=2024-07-06T03:59:59.999Z;filters=type:rlabel,key:namespace_name,val:gen4%2Btype:rlabel,key:cluster_name%2Btype:rlabel,key:container_name%2Btype:mlabel,key:severity?project=gmw-prod&pli=1&inv=1&invt=Ab3vlg&pageState=(%22eventTypes%22:(%22selected%22:%5B%22CLOUD_ALERTING_ALERT%22,%22GKE_WORKLOAD_DEPLOYMENT%22%5D))">
-            <img class="no-shadow" loading="lazy" alt="Monitoring" data-src="google-cloud01.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="google-cloud01.svg">
             <span>Monitoring</span>
           </a>
         </div>
       </details>
 
       <details class="group">
-        <summary>BSD - Apps</summary>
+        <summary><h2 class="group-title">BSD - Apps</h2></summary>
         <div class="link-grid">
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://gen4-admin.dev.gmwrgs.com/login">
-            <img class="no-shadow" loading="lazy" alt="Admin Dev" data-src="admin03.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="admin03.svg">
             <span>Admin Dev</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://gen4-admin.qa.gmwrgs.com/login">
-            <img class="no-shadow" loading="lazy" alt="Admin QA" data-src="admin03.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="admin03.svg">
             <span>Admin QA</span>
           </a>
         </div>
       </details>
 
       <details class="group">
-        <summary>GDP - Applicants</summary>
+        <summary><h2 class="group-title">GDP - Applicants</h2></summary>
         <div class="link-grid">
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://gdp.atlassian.net/wiki/spaces/GEN4/pages/1162510339/Examen+T+cnico+Desarrollador+Backend">
-            <img class="no-shadow" loading="lazy" alt="Backend" data-src="exam01.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="exam01.svg">
             <span>Backend</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://gdp.atlassian.net/wiki/spaces/GEN4/pages/1164640257/Examen+T+cnico+Desarrollador+Frontend">
-            <img class="no-shadow" loading="lazy" alt="Frontend" data-src="exam02.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="exam02.svg">
             <span>Frontend</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://docs.google.com/spreadsheets/d/15UHrwNJgIjrZWPUbBUcJEhxk0SO2ZK_v-4s3pZCVZiA/edit?gid=0#gid=0">
-            <img class="no-shadow" loading="lazy" alt="Scores" data-src="result01.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="result01.svg">
             <span>Scores</span>
           </a>
         </div>
       </details>
 
       <details class="group">
-        <summary>Utils</summary>
+        <summary><h2 class="group-title">Utils</h2></summary>
         <div class="link-grid">
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://www.svgrepo.com">
-            <img class="no-shadow" loading="lazy" alt="SVG repo" data-src="svgrepo01.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="svgrepo01.svg">
             <span>SVG repo</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://techicons.dev">
-            <img class="no-shadow" loading="lazy" alt="Tech Icons" data-src="tech-icons01.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="tech-icons01.svg">
             <span>Tech Icons</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://jsonformatter.curiousconcept.com/#">
-            <img class="no-shadow" loading="lazy" alt="Formatter" data-src="json01.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="json01.svg">
             <span>Formatter</span>
           </a>
           <a class="link" target="_blank" rel="noopener noreferrer" href="https://www.realtimecolors.com/?colors=acbfc3-212126-342786-1b4a55-e6337d&fonts=Inter-Inter">
-            <img class="no-shadow" loading="lazy" alt="Palette" data-src="color02.svg">
+            <img class="no-shadow" loading="lazy" alt="" data-src="color02.svg">
             <span>Palette</span>
           </a>
         </div>
       </details>
     </main>
 
-    <script>
-      document.querySelectorAll('.link').forEach(link => {
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          const url = e.currentTarget.href;
-          const tabName = btoa(url); // nombre único basado en la URL
-          window.open(url, tabName, 'noopener,noreferrer');
-        });
+    <script type="module">
+      const basePath = (typeof assetsBasePath !== 'undefined') ? assetsBasePath : '/startpage/files/';
+
+      // Favicon
+      const favicon = document.getElementById('dynamic-favicon');
+      if (favicon) favicon.href = `${basePath}favicon.png`;
+
+      // Background (body + layer)
+      const bgUrl = `${basePath}word02.jpg`;
+      const bgLayer = document.getElementById('background-layer');
+      if (bgLayer) bgLayer.style.backgroundImage = `url('${bgUrl}')`;
+      document.body.style.backgroundImage = `url('${bgUrl}')`;
+
+      // Resolve lazy icons
+      for (const img of document.querySelectorAll('img[data-src]')) {
+        img.src = basePath + img.dataset.src;
+        // Use the visible label as accessible name (icons are decorative)
+        const label = img.parentElement?.querySelector('span')?.textContent?.trim();
+        if (label && !img.alt) img.alt = label;
+      }
+
+      // Hash helper for stable, URL-safe tab names
+      const hashName = (str) => {
+        let h = 5381;
+        for (let i = 0; i < str.length; i++) h = ((h << 5) + h) ^ str.charCodeAt(i);
+        return 'tab_' + (h >>> 0).toString(36);
+      };
+
+      // Event delegation: open links in named tabs (reuses existing one)
+      document.querySelector('main').addEventListener('click', (e) => {
+        const link = e.target.closest('a.link');
+        if (!link) return;
+        // Allow modifier keys (cmd/ctrl/middle-click) to behave normally
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+        e.preventDefault();
+        window.open(link.href, hashName(link.href), 'noopener,noreferrer');
       });
     </script>
   </body>
