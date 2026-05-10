@@ -11,14 +11,15 @@
     <script src="config.js" defer></script>
     <style>
       :root {
-        --bg-color: #262525;
-        --surface: oklch(25% 0.01 20 / 0.55);
-        --surface-hover: oklch(30% 0.02 20 / 0.7);
-        --text-color: oklch(96% 0.01 90);
-        --text-muted: color-mix(in oklch, var(--text-color) 70%, transparent);
-        --accent: oklch(70% 0.15 200);
-        --border: color-mix(in oklch, white 10%, transparent);
-        --shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        --bg-color: #1a1a1a;
+        --surface: rgba(20, 20, 20, 0.85);
+        --surface-header: rgba(15, 15, 15, 0.92);
+        --surface-hover: rgba(255, 255, 255, 0.08);
+        --text-color: #f0f0f0;
+        --text-muted: rgba(240, 240, 240, 0.6);
+        --accent: #4a9eff;
+        --border: rgba(255, 255, 255, 0.08);
+        --shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
         --radius: 14px;
         --icon-size: clamp(48px, 5vw, 64px);
         --tile-width: clamp(96px, 10vw, 120px);
@@ -73,9 +74,10 @@
 
       main {
         position: fixed;
-        inset: 1.25rem 1.875rem;
-        max-width: 1200px;
-        margin-inline: auto;
+        top: 1.25rem;
+        bottom: 1.25rem;
+        left: 1.875rem;
+        width: min(900px, calc(100% - 3.75rem));
         overflow-y: auto;
         z-index: 1;
         scrollbar-color: var(--surface) transparent;
@@ -83,11 +85,11 @@
       }
 
       .group {
-        width: min(100%, 1024px);
-        margin: 0.625rem auto;
+        width: 100%;
+        margin: 0.625rem 0;
         background-color: var(--surface);
-        backdrop-filter: blur(10px) saturate(140%);
-        -webkit-backdrop-filter: blur(10px) saturate(140%);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
         border: 1px solid var(--border);
         border-radius: var(--radius);
         overflow: hidden;
@@ -100,9 +102,9 @@
         z-index: 2;
         cursor: pointer;
         padding: 0.625rem 1rem;
-        background-color: color-mix(in oklch, white 5%, transparent);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+        background-color: var(--surface-header);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
         border-bottom: 1px solid var(--border);
         display: flex;
         align-items: center;
@@ -113,7 +115,7 @@
       }
 
       .group > summary:hover {
-        background-color: color-mix(in oklch, white 9%, transparent);
+        background-color: rgba(35, 35, 35, 0.95);
       }
 
       .group > summary::-webkit-details-marker {
@@ -198,7 +200,10 @@
 
       @media (max-width: 600px) {
         main {
-          inset: 0.75rem;
+          top: 0.75rem;
+          bottom: 0.75rem;
+          left: 0.75rem;
+          width: calc(100% - 1.5rem);
         }
       }
 
